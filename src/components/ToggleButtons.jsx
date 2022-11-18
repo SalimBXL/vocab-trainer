@@ -20,7 +20,7 @@ const ToggleButtons = ({reviewTypeConstants, reviewType, handleTypeChange}) => {
             aria-label="Platform"
         >
             {Object.keys(reviewTypeConstants).map((paire => 
-                <ToggleButton value={paire}>{paire}</ToggleButton>
+                <ToggleButton key={paire} value={paire}>{paire}</ToggleButton>
             ))}
         </ToggleButtonGroup>
     );

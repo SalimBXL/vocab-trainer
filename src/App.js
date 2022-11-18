@@ -1,8 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
+import Box from '@mui/material/Box';
 import { prepareWordList, dateNextShowAndNextLevel, countWords } from './utils';
 import ToggleButtons from './components/ToggleButtons';
 import Fiche from './components/Fiche';
+import LinearWithValueLabel from './components/ProgressBar';
 
 const words_json = {
   20221115: [
@@ -40,19 +42,22 @@ const App = () => {
     />
 
 
-    <h3>Stats</h3>
-    <ul>
-      <li>Entries : {totalWords}</li>
-      <li>To review : {wordList.length}</li>
-      <li>Known : {totalWords-wordList.length}</li>
-      <li>review Type : {reviewType}</li>
-    </ul>
-
-
-    
-    <h3>Today's Word List</h3>
     <p>WordList : {wordList.length} {wordList.length < 2 ? "entry" : "entries"}</p>
-    <ol>
+
+    <LinearWithValueLabel total={wordList.length} current={0} />
+
+
+
+    <Box sx={{ 
+      display: 'flex',
+      flexWrap: 'wrap',
+      '& > :not(style)': {
+        m: 1,
+        width: 128,
+        height: 128,
+      },
+    }}>
+    
       {wordList.map(({word, translation, fibonacci_level}) => {
         
         const tempReviewType = (reviewType === reviewTypeConstants.BOTH) 
@@ -71,10 +76,10 @@ const App = () => {
           ? <h3>word</h3>
           : <blockquote>{translation}</blockquote>;
 
-        return <Fiche content={fiche}/>
+        return <Fiche key={word} content={fiche}/>
         
       })}
-    </ol>
+    </Box>
     
     <h3>***</h3>
   </div>);
