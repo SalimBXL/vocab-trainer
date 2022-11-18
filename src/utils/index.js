@@ -28,4 +28,24 @@ const dateNextShowAndNextLevel = (result, fibonacci_level) => {
     return [nextDate, nextFibonacciLevel];
 }
 
-export {adZero, computeFibonacciValue, addDaysToDay, dateNextShowAndNextLevel};
+const countWords = (words_json) => {
+    let total = 0;
+    Object.keys(words_json).map(date => words_json[date].map(mot => total++) );
+    return total;
+}
+
+const prepareWordList = (words_json) => {
+    const wlist = new Set();
+    const now = new Date();
+    const dateInt = parseInt(`${now.getFullYear()}${adZero(now.getMonth()+1)}${adZero(now.getDate())}`);
+    Object
+      .keys(words_json)
+      .sort()
+      .filter((date) => parseInt(date) <= dateInt)
+      .map(date => words_json[date].map(mot => wlist.add(mot)));
+    return Array.from(wlist);
+  }
+
+  
+
+export {adZero, computeFibonacciValue, addDaysToDay, dateNextShowAndNextLevel, countWords, prepareWordList};

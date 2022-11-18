@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
-import { adZero, dateNextShowAndNextLevel } from './utils';
-
+import { prepareWordList, dateNextShowAndNextLevel, countWords } from './utils';
+import ToggleButtons from './components/ToggleButtons';
+import Fiche from './components/Fiche';
 
 const words_json = {
   20221115: [
@@ -14,39 +15,64 @@ const words_json = {
     { word: "word_02", translation: "mot_02", fibonacci_level: 3 },
     { word: "word_03", translation: "mot_03", fibonacci_level: 0 },
   ],
-  20221118: [
+  20221119: [
     { word: "word_04", translation: "mot_04", fibonacci_level: 5 },
     { word: "word_05", translation: "mot_05", fibonacci_level: 1 },
     { word: "word_06", translation: "mot_06", fibonacci_level: 6 },
   ]
 }
 
-const prepareWordList = () => {
-  const wlist = new Set();
-  const now = new Date();
-  const dateInt = parseInt(`${now.getFullYear()}${adZero(now.getMonth()+1)}${adZero(now.getDate())}`);
-  Object
-    .keys(words_json)
-    .sort()
-    .filter((date) => parseInt(date) <= dateInt)
-    .map(date => words_json[date].map(mot => wlist.add(mot)));
-  return Array.from(wlist);
-}
+const reviewTypeConstants = { RECTO: "RECTO", VERSO: "VERSO", BOTH: "BOTH" };
+
 
 const App = () => {
-  const [wordList, setWords] = useState(prepareWordList);
+  const [wordList, setWords] = useState(prepareWordList(words_json));
+  const [reviewType, setReviewType] = useState(reviewTypeConstants.BOTH);
+  const totalWords = countWords(words_json);
   
   return (<div>
     <h1>Vocab Trainer</h1>
+
+    <ToggleButtons 
+      reviewTypeConstants={reviewTypeConstants} 
+      reviewType={reviewType}
+      handleTypeChange={setReviewType}
+    />
+
+
+    <h3>Stats</h3>
+    <ul>
+      <li>Entries : {totalWords}</li>
+      <li>To review : {wordList.length}</li>
+      <li>Known : {totalWords-wordList.length}</li>
+      <li>review Type : {reviewType}</li>
+    </ul>
+
+
+    
+    <h3>Today's Word List</h3>
     <p>WordList : {wordList.length} {wordList.length < 2 ? "entry" : "entries"}</p>
     <ol>
       {wordList.map(({word, translation, fibonacci_level}) => {
         
-        
-        const [nextDate, nextFibonacciLevel] = dateNextShowAndNextLevel(false, fibonacci_level)
+        const tempReviewType = (reviewType === reviewTypeConstants.BOTH) 
+          ? Math.random() < 0.5 
+            ? reviewTypeConstants.RECTO 
+            : reviewTypeConstants.VERSO
+         : reviewType;
 
-        return <li key={word}>{word} : {translation} ({fibonacci_level}) / {nextDate} ({nextFibonacciLevel})
-        </li>
+        const [nextDate, nextFibonacciLevel] = dateNextShowAndNextLevel(false, fibonacci_level)  
+        
+        //const fiche = (tempReviewType === reviewTypeConstants.RECTO) 
+        //  ? `${word} ... (${fibonacci_level}) / ${nextDate} (${nextFibonacciLevel})`
+        //  : `... : ${translation} (${fibonacci_level}) / ${nextDate} (${nextFibonacciLevel})`;
+        
+        const fiche = (tempReviewType === reviewTypeConstants.RECTO) 
+          ? <h3>word</h3>
+          : <blockquote>{translation}</blockquote>;
+
+        return <Fiche content={fiche}/>
+        
       })}
     </ol>
     
