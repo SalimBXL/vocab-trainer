@@ -8,7 +8,10 @@ const ToggleButtons = ({reviewTypeConstants, reviewType, handleTypeChange}) => {
 
     const handleChange = (event, newAlignment) => {
         setAlignment(newAlignment);
-        handleTypeChange(newAlignment);
+        handleTypeChange(() => {
+            console.log("Alignement : ", alignment);
+            return newAlignment;
+        });
     };
 
     return (
@@ -17,7 +20,6 @@ const ToggleButtons = ({reviewTypeConstants, reviewType, handleTypeChange}) => {
             value={alignment}
             exclusive
             onChange={handleChange}
-            aria-label="Platform"
         >
             {Object.keys(reviewTypeConstants).map((paire => 
                 <ToggleButton key={paire} value={paire}>{paire}</ToggleButton>
