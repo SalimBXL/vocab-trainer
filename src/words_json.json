@@ -4,12 +4,12 @@
         { "word": "word_08", "translation": "mot_08", "fibonacci_level": 2 },
         { "word": "word_09", "translation": "mot_09", "fibonacci_level": 9 }
     ],
-    "20221117": [
+    "20221123": [
         { "word": "word_01", "translation": "mot_01", "fibonacci_level": 4 },
         { "word": "word_02", "translation": "mot_02", "fibonacci_level": 3 },
         { "word": "word_03", "translation": "mot_03", "fibonacci_level": 0 }
     ],
-    "20221119": [
+    "20221124": [
         { "word": "word_04", "translation": "mot_04", "fibonacci_level": 5 },
         { "word": "word_05", "translation": "mot_05", "fibonacci_level": 1 },
         { "word": "word_06", "translation": "mot_06", "fibonacci_level": 6 }
