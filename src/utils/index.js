@@ -23,14 +23,20 @@ const addDaysToDay = (days) => {
 }
 
 const dateNextShowAndNextLevel = (result, fibonacci_level) => {
-    const nextDate = (result) ? addDaysToDay(computeFibonacciValue(fibonacci_level)).toDateString() : addDaysToDay(computeFibonacciValue(0)).toDateString();
-    const nextFibonacciLevel = (result) ? fibonacci_level + 1 : 1;
+    const nextDate = (result) 
+        ? addDaysToDay(computeFibonacciValue(fibonacci_level)).toDateString() 
+        : addDaysToDay(computeFibonacciValue(0)).toDateString();
+    const nextFibonacciLevel = (result) 
+        ? fibonacci_level + 1 
+        : 1;
     return [nextDate, nextFibonacciLevel];
 }
 
 const countWords = (words_json) => {
     let total = 0;
-    Object.keys(words_json).map(date => words_json[date].map(mot => total++) );
+    Object
+        .keys(words_json)
+        .map(date => words_json[date].map(mot => total++) );
     return total;
 }
 

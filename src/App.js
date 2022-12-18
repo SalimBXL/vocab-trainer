@@ -12,19 +12,21 @@ const words_json = JSON.parse(JSON.stringify(wordsJsonFile));
 const App = () => {
   const reviewTypeConstants = { RECTO: "RECTO", VERSO: "VERSO", BOTH: "BOTH" };
   const [wordList, setWords] = useState(prepareWordList(words_json));
-  const [reviewType, setReviewType] = useState(reviewTypeConstants.BOTH);
+  const [reviewType, setReviewType] = useState(reviewTypeConstants.RECTO);
   
   return (<div className='App'>
-    <h1>Vocab Trainer</h1>
 
-    <ToggleButtons 
-      reviewTypeConstants={reviewTypeConstants} 
-      reviewType={reviewType}
-      handleTypeChange={setReviewType}
-    />
-
-
-    <p>WordList : {wordList.length} {wordList.length < 2 ? "entry" : "entries"}</p>
+    <header className='App-jumbo'>
+      <div className='App-header'>
+        <h1>Vocab Trainer</h1>
+        <ToggleButtons 
+          reviewTypeConstants={reviewTypeConstants} 
+          reviewType={reviewType}
+          handleTypeChange={setReviewType}
+        />
+      </div>
+      <p>WordList : {wordList.length} {wordList.length < 2 ? "entry" : "entries"}</p>
+    </header>
 
     <LinearWithValueLabel total={wordList.length} current={0} />
 
@@ -35,7 +37,7 @@ const App = () => {
           ? Math.random() < 0.5 
             ? reviewTypeConstants.RECTO 
             : reviewTypeConstants.VERSO
-         : reviewType;
+          : reviewType;
 
         const [nextDate, nextFibonacciLevel] = dateNextShowAndNextLevel(false, fibonacci_level)  
         
