@@ -1,18 +1,20 @@
 {
     "20221115": [
-        { "word": "word_07", "translation": "mot_07", "fibonacci_level": 0 },
-        { "word": "word_08", "translation": "mot_08", "fibonacci_level": 2 },
-        { "word": "word_09", "translation": "mot_09", "fibonacci_level": 9 }
+        { "recto": "recto_08", "verso": "mot_08", "fibonacci_level": 2 },
+        { "recto": "recto_09", "verso": "mot_09", "fibonacci_level": 9 }
     ],
     "20221123": [
-        { "word": "word_01", "translation": "mot_01", "fibonacci_level": 4 },
-        { "word": "word_02", "translation": "mot_02", "fibonacci_level": 3 },
-        { "word": "word_03", "translation": "mot_03", "fibonacci_level": 0 }
+        { "recto": "recto_01", "verso": "mot_01", "fibonacci_level": 4 },
+        { "recto": "recto_03", "verso": "mot_03", "fibonacci_level": 0 }
     ],
-    "20221124": [
-        { "word": "word_04", "translation": "mot_04", "fibonacci_level": 5 },
-        { "word": "word_05", "translation": "mot_05", "fibonacci_level": 1 },
-        { "word": "word_06", "translation": "mot_06", "fibonacci_level": 6 }
+    "20230102": [
+        { "recto": "recto_07", "verso": "mot_07", "fibonacci_level": 1 },
+        { "recto": "recto_02", "verso": "mot_02", "fibonacci_level": 5 }
+    ],
+    "20230110": [
+        { "recto": "recto_04", "verso": "mot_04", "fibonacci_level": 5 },
+        { "recto": "recto_05", "verso": "mot_05", "fibonacci_level": 1 },
+        { "recto": "recto_06", "verso": "mot_06", "fibonacci_level": 6 }
     ]
 }
   

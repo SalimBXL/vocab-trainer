@@ -28,24 +28,50 @@ const dateNextShowAndNextLevel = (result, fibonacci_level) => {
     return [nextDate, nextFibonacciLevel];
 }
 
-const countWords = (words_json) => {
-    let total = 0;
-    Object.keys(words_json).map(date => words_json[date].map(mot => total++) );
-    return total;
+const prepareWordsToReview = (words_json) => Array.from(_getWords(words_json, (new Date())));
+
+const wordsStatistics = (words_json) => {
+    const unknownWords = Array.from(_getWords(words_json, (new Date()))).length;
+    const allWords = Array.from(_getWords(words_json)).length;
+    const knownWords = allWords - unknownWords;
+    const percentUnknown = Math.floor(unknownWords / allWords * 100);
+    const percentKnown = Math.floor(knownWords / allWords * 100);
+    const _lastReviewDate = _wordListSortedByDate(words_json)[(_wordListSortedByDate(words_json).length - 1)];
+    const lastReview = new Date(`${_lastReviewDate.substr(0,4)}-${_lastReviewDate.substr(4,2)}-${_lastReviewDate.substr(6,2)}`).toDateString();
+    return {
+        totalWords: allWords,
+        unknownWords: unknownWords,
+        knownWords: knownWords,
+        percentUnknown: percentUnknown,
+        percentKnown: percentKnown,
+        lastReview: lastReview
+    };
 }
 
-const prepareWordList = (words_json) => {
+
+// PRIVATE
+
+const getDateIntFormatted = (date) => parseInt(`${date.getFullYear()}${adZero(date.getMonth()+1)}${adZero(date.getDate())}`);
+const _wordListSortedByDate = (words_json) => Object.keys(words_json).sort();
+const _getWords = (words_json, trigger) => {
     const wlist = new Set();
     const now = new Date();
-    const dateInt = parseInt(`${now.getFullYear()}${adZero(now.getMonth()+1)}${adZero(now.getDate())}`);
-    Object
-      .keys(words_json)
-      .sort()
-      .filter((date) => parseInt(date) <= dateInt)
-      .map(date => words_json[date].map(mot => wlist.add(mot)));
-    return Array.from(wlist);
-  }
+    const dateInt = getDateIntFormatted(now);
+    const sortedWordList = _wordListSortedByDate(words_json);
+    if (trigger) sortedWordList
+        .filter((date) => parseInt(date) <= dateInt)
+        .map(date => words_json[date].map(mot => wlist.add(mot)));
+    else sortedWordList
+        .map(date => words_json[date].map(mot => wlist.add(mot)));
+    return wlist;
+}
 
-  
-
-export {adZero, computeFibonacciValue, addDaysToDay, dateNextShowAndNextLevel, countWords, prepareWordList};
+export {
+    addDaysToDay, 
+    adZero, 
+    computeFibonacciValue, 
+    dateNextShowAndNextLevel, 
+    getDateIntFormatted,
+    prepareWordsToReview,
+    wordsStatistics
+};

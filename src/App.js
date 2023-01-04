@@ -1,54 +1,54 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { prepareWordList, dateNextShowAndNextLevel } from './utils';
-import ToggleButtons from './components/ToggleButtons';
+import { prepareWordsToReview, dateNextShowAndNextLevel } from './utils';
+import NavigationBar from './components/NavigationBar';
 import Fiche from './components/Fiche';
-import LinearWithValueLabel from './components/ProgressBar';
+import Statistics from './components/Statistics';
+import TodaysProgression from './components/TodaysProgression';
 import "./App.css";
+
 import wordsJsonFile from "./words_json.json";
 
 const words_json = JSON.parse(JSON.stringify(wordsJsonFile));
+const reviewTypeConstants = { RECTO: "RECTO", VERSO: "VERSO", BOTH: "BOTH" };
 
-const App = () => {
-  const reviewTypeConstants = { RECTO: "RECTO", VERSO: "VERSO", BOTH: "BOTH" };
-  const [wordList, setWords] = useState(prepareWordList(words_json));
-  const [reviewType, setReviewType] = useState(reviewTypeConstants.BOTH);
-  
+const App = () => {  
+  const [wordsToReview, setWordsToReview] = useState(prepareWordsToReview(words_json));
+  const [wordsReviewed, setWordsReviewed] = useState(0);
+  const [reviewType, setReviewType] = useState(reviewTypeConstants.RECTO);  
+  const [todayList, setTodayList] = useState([]);
+
+
+  useEffect(() => {
+    console.log("TODAY :");
+    todayList.map(today => console.log(today.recto, today.verso, today.fibonacci_level, today.nextDate) );
+  },[todayList]);
+
+
   return (<div className='App'>
-    <h1>Vocab Trainer</h1>
-
-    <ToggleButtons 
-      reviewTypeConstants={reviewTypeConstants} 
-      reviewType={reviewType}
-      handleTypeChange={setReviewType}
-    />
-
-
-    <p>WordList : {wordList.length} {wordList.length < 2 ? "entry" : "entries"}</p>
-
-    <LinearWithValueLabel total={wordList.length} current={0} />
+    <NavigationBar />
+    <Statistics words_json={words_json} />
+    <TodaysProgression wordsToReview={wordsToReview} reviewed={wordsReviewed} />
 
     <div className="row ListFiches">
-      {wordList.map(({word, translation, fibonacci_level}) => {
-        
-        const tempReviewType = (reviewType === reviewTypeConstants.BOTH) 
+
+      {wordsToReview.map(({recto, verso, fibonacci_level}, idx) => {
+        const [nextDate, nextFibonacciLevel] = dateNextShowAndNextLevel(false, fibonacci_level);
+        const _reviewType = (reviewType === reviewTypeConstants.BOTH) 
           ? Math.random() < 0.5 
             ? reviewTypeConstants.RECTO 
             : reviewTypeConstants.VERSO
          : reviewType;
 
-        const [nextDate, nextFibonacciLevel] = dateNextShowAndNextLevel(false, fibonacci_level)  
-        
-        //const fiche = (tempReviewType === reviewTypeConstants.RECTO) 
-        //  ? `${word} ... (${fibonacci_level}) / ${nextDate} (${nextFibonacciLevel})`
-        //  : `... : ${translation} (${fibonacci_level}) / ${nextDate} (${nextFibonacciLevel})`;
-        
-        const fiche = (tempReviewType === reviewTypeConstants.RECTO) 
-          ? <h3>word</h3>
-          : <blockquote>{translation}</blockquote>;
-
-        return <div key={word} className="col-sm-6 col-md-4 col-lg-3">
-          <Fiche className="App-Fiche" content={fiche} />
+        return <div key={idx} className="col-sm-6 col-md-4 col-lg-3">
+          <Fiche 
+            className="App-Fiche" 
+            question={(_reviewType === reviewTypeConstants.RECTO) ? recto : verso}
+            answer={(_reviewType === reviewTypeConstants.RECTO) ? verso : recto}
+            nextLevel={nextFibonacciLevel}
+            nextDate={nextDate}
+            setTodayList={setTodayList}
+          />
         </div>
         
       })}

@@ -9,7 +9,6 @@ const ToggleButtons = ({reviewTypeConstants, reviewType, handleTypeChange}) => {
     const handleChange = (event, newAlignment) => {
         setAlignment(newAlignment);
         handleTypeChange(() => {
-            console.log("Alignement : ", alignment);
             return newAlignment;
         });
     };
