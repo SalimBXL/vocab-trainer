@@ -45,7 +45,9 @@ export default function Fiche({item, handleAnswer, idx}) {
     <Card className="Fiche">
       <CardContent>
         <h5>{recto}</h5>
-        {showAnswer && <blockquote>{verso}</blockquote> }
+        <blockquote>
+          {showAnswer ? `${verso}` : ` ? `}
+        </blockquote>
       </CardContent>
       <CardActions>
         {showCheckAction ? showSuccessErrorButtons() : showAnswerPassButton()}

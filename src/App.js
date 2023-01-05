@@ -57,12 +57,13 @@ const App = () => {
     <Statistics words_json={currentJson} />
     <hr />
 
-    <div>
+    <div className='container-fluid'>
+    <div className="row">
       {wordsToReview.map((item, idx) => {
         const style = wordsReviewed.has(idx) ? {display: "none"} : {};
         console.log(style);
         return (
-        <div key={idx} className="col-sm-6 col-md-4 col-lg-3" style={style}>
+        <div className='col-sm-4' key={idx} style={style}>
           <Fiche 
             className="App-Fiche"
             item={item}
@@ -71,7 +72,7 @@ const App = () => {
         </div>)
       })}
     </div>
-
+    </div>
   </div>);
 }
 
