@@ -15,7 +15,6 @@ import deck1 from "./decks/deck-1.json";
 const reviewTypeConstants = { RECTO: "RECTO", VERSO: "VERSO", BOTH: "BOTH" };
 
 const App = () => {
-<<<<<<< HEAD
   const [reviewType, setReviewType] = useState(reviewTypeConstants.RECTO);  
   const [currentDeck, setCurrentDeck] = useState(null);
   const [currentJson, setCurrentJson] = useState(null);
@@ -24,11 +23,6 @@ const App = () => {
   const [deckList, setDeckList] = useState([
     { deckName: "deck1", deck: deck1 }
   ]);
-=======
-  const reviewTypeConstants = { RECTO: "RECTO", VERSO: "VERSO", BOTH: "BOTH" };
-  const [wordList, setWords] = useState(prepareWordList(words_json));
-  const [reviewType, setReviewType] = useState(reviewTypeConstants.RECTO);
->>>>>>> origin/master
   
   useEffect(() => {
     if (currentDeck) {
