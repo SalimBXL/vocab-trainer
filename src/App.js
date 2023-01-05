@@ -55,7 +55,6 @@ const App = () => {
 
   return (<div className='App'>
 
-<<<<<<< HEAD
     <NavigationBar deckName={currentDeck}/>
     <div style={{display: "flex", flexFlow: "row wrap", justifyContent: "flex-start", alignItems: "flex-start"}}>
       <DeckSelector deckList={deckList} setCurrentDeck={setCurrentDeck} />
@@ -76,45 +75,6 @@ const App = () => {
             handleAnswer={handleAnswer}
           />
         </div>)
-=======
-    <header className='App-jumbo'>
-      <div className='App-header'>
-        <h1>Vocab Trainer</h1>
-        <ToggleButtons 
-          reviewTypeConstants={reviewTypeConstants} 
-          reviewType={reviewType}
-          handleTypeChange={setReviewType}
-        />
-      </div>
-      <p>WordList : {wordList.length} {wordList.length < 2 ? "entry" : "entries"}</p>
-    </header>
-
-    <LinearWithValueLabel total={wordList.length} current={0} />
-
-    <div className="row ListFiches">
-      {wordList.map(({word, translation, fibonacci_level}) => {
-        
-        const tempReviewType = (reviewType === reviewTypeConstants.BOTH) 
-          ? Math.random() < 0.5 
-            ? reviewTypeConstants.RECTO 
-            : reviewTypeConstants.VERSO
-          : reviewType;
-
-        const [nextDate, nextFibonacciLevel] = dateNextShowAndNextLevel(false, fibonacci_level)  
-        
-        //const fiche = (tempReviewType === reviewTypeConstants.RECTO) 
-        //  ? `${word} ... (${fibonacci_level}) / ${nextDate} (${nextFibonacciLevel})`
-        //  : `... : ${translation} (${fibonacci_level}) / ${nextDate} (${nextFibonacciLevel})`;
-        
-        const fiche = (tempReviewType === reviewTypeConstants.RECTO) 
-          ? <h3>word</h3>
-          : <blockquote>{translation}</blockquote>;
-
-        return <div key={word} className="col-sm-6 col-md-4 col-lg-3">
-          <Fiche className="App-Fiche" content={fiche} />
-        </div>
-        
->>>>>>> origin/master
       })}
     </div>
 
