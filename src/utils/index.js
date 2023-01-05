@@ -23,29 +23,39 @@ const addDaysToDay = (days) => {
 }
 
 const dateNextShowAndNextLevel = (result, fibonacci_level) => {
-    const nextDate = (result) ? addDaysToDay(computeFibonacciValue(fibonacci_level)).toDateString() : addDaysToDay(computeFibonacciValue(0)).toDateString();
-    const nextFibonacciLevel = (result) ? fibonacci_level + 1 : 1;
+    const nextFibonacciLevel = (result) ? (fibonacci_level + 1) : 1;
+    const fibonacciValue = (result) ? computeFibonacciValue(fibonacci_level) : computeFibonacciValue(1);
+    const nextDate = addDaysToDay(fibonacciValue).toDateString();
     return [nextDate, nextFibonacciLevel];
 }
 
 const prepareWordsToReview = (words_json) => Array.from(_getWords(words_json, (new Date())));
 
 const wordsStatistics = (words_json) => {
-    const unknownWords = Array.from(_getWords(words_json, (new Date()))).length;
-    const allWords = Array.from(_getWords(words_json)).length;
-    const knownWords = allWords - unknownWords;
-    const percentUnknown = Math.floor(unknownWords / allWords * 100);
-    const percentKnown = Math.floor(knownWords / allWords * 100);
-    const _lastReviewDate = _wordListSortedByDate(words_json)[(_wordListSortedByDate(words_json).length - 1)];
-    const lastReview = new Date(`${_lastReviewDate.substr(0,4)}-${_lastReviewDate.substr(4,2)}-${_lastReviewDate.substr(6,2)}`).toDateString();
-    return {
-        totalWords: allWords,
-        unknownWords: unknownWords,
-        knownWords: knownWords,
-        percentUnknown: percentUnknown,
-        percentKnown: percentKnown,
-        lastReview: lastReview
+    const stats = {
+        totalWords: 0,
+        unknownWords: 0,
+        knownWords: 0,
+        percentUnknown: 0,
+        percentKnown: 100,
+        lastReview: null
     };
+    if (words_json) {
+        const unknownWords = Array.from(_getWords(words_json, (new Date()))).length;
+        const allWords = Array.from(_getWords(words_json)).length;
+        const knownWords = allWords - unknownWords;
+        const percentUnknown = Math.floor(unknownWords / allWords * 100);
+        const percentKnown = Math.floor(knownWords / allWords * 100);
+        const _lastReviewDate = _wordListSortedByDate(words_json)[(_wordListSortedByDate(words_json).length - 1)];
+        const lastReview = new Date(`${_lastReviewDate.substr(0,4)}-${_lastReviewDate.substr(4,2)}-${_lastReviewDate.substr(6,2)}`).toDateString();
+        stats.totalWords = allWords;
+        stats.unknownWords = unknownWords;
+        stats.knownWords = knownWords;
+        stats.percentKnown = percentKnown;
+        stats.percentUnknown = percentUnknown;
+        stats.lastReview = lastReview;
+    } 
+    return stats;
 }
 
 

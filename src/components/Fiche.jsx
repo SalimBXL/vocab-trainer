@@ -7,52 +7,28 @@ import CardContent from '@mui/material/CardContent';
 import "./Fiche.css";
 
 
-export default function Fiche({question, answer, nextLevel, nextDate, setTodayList}) {
+export default function Fiche({item, handleAnswer, idx}) {
   const [showCheckAction, setShowCheckAction] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
+  const {recto, verso} = item;
 
   const handleAnswerClick = () => {
-    setShowCheckAction(() => true);
     setShowAnswer(() => true);
+    setShowCheckAction(() => true);
   };
 
   const handlePassClick = () => {
     setShowAnswer(() => true);
-    setTodayList(prev => [
-      ...prev,
-      {
-        recto: question, 
-        verso: answer, 
-        fibonacci_level: 0,
-        date: nextDate
-      }
-    ]);
+    returnResult(false);
   };
 
-  const handleSuccessClick = () => {
-    setTodayList(prev => [
-      ...prev,
-      {
-        recto: question, 
-        verso: answer, 
-        fibonacci_level: nextLevel,
-        date: nextDate
-      }
-    ]);
-  };
-
-  const handleFailClick = () => {
-    setTodayList(prev => [
-      ...prev,
-      {
-        recto: question, 
-        verso: answer, 
-        fibonacci_level: 0,
-        date: nextDate
-      }
-    ]);
-  }
+  const handleSuccessClick = () => returnResult(true);
+  const handleFailClick = () => returnResult(false);
     
+  function returnResult(result) {
+    handleAnswer(result, item, idx);
+  }
+
   const showAnswerPassButton = () => 
     <Stack direction="row" spacing={2}>
       <button className="btn btn-primary" onClick={handleAnswerClick}>Answer</button>
@@ -65,13 +41,11 @@ export default function Fiche({question, answer, nextLevel, nextDate, setTodayLi
     <button className="btn btn-danger" onClick={handleFailClick}>Error</button>
   </Stack>;
 
-  console.log("FICHE : ", question, answer, nextLevel, nextDate);
-
   return (
     <Card className="Fiche">
       <CardContent>
-        <h5>{question}</h5>
-        {showAnswer && <blockquote>{answer}</blockquote> }
+        <h5>{recto}</h5>
+        {showAnswer && <blockquote>{verso}</blockquote> }
       </CardContent>
       <CardActions>
         {showCheckAction ? showSuccessErrorButtons() : showAnswerPassButton()}
