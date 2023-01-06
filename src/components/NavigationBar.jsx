@@ -11,7 +11,7 @@ const NavigationBar = ({deck}) => {
         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
             <h1>Vocab Trainer</h1>
             {deck
-                ? deck.deckName
+                ? <h4>[{deck.deckName}]</h4>
                 : `[ no deck selected ]`
             }
         </div>

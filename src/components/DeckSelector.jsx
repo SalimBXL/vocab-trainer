@@ -9,7 +9,7 @@ function DeckSelector({deckList, setCurrentDeck}) {
 
     const handleChange = (event) => setDeck((prev) => {
         const selectedDeck = event.target.value;
-        setCurrentDeck(prev => selectedDeck);
+        setCurrentDeck(selectedDeck);
         return selectedDeck;
     });
 

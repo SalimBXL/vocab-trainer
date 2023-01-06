@@ -45,13 +45,13 @@ const App = () => {
     };
     setWordsToReview(prev => {
       prev[idx] = updatedItem;
-      setWordsReviewed(prev => prev + 1);
       return prev;
     });
+    setWordsReviewed(prev => ++prev);
   }
 
   return (<div className='App'>
-    <NavigationBar deckName={currentDeck}/>
+    <NavigationBar deck={currentDeck}/>
     <div style={{display: "flex", flexFlow: "row wrap", justifyContent: "flex-start", alignItems: "flex-start"}}>
       <DeckSelector deckList={deckList} setCurrentDeck={setCurrentDeck} />
       <TodaysProgression toReview={wordsToReview.length} reviewed={wordsReviewed} />
