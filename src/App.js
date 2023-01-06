@@ -19,7 +19,7 @@ const App = () => {
   const [currentDeck, setCurrentDeck] = useState(null);
   const [currentJson, setCurrentJson] = useState(null);
   const [wordsToReview, setWordsToReview] = useState([]);
-  const [wordsReviewed, setWordsReviewed] = useState(new Map());
+  const [wordsReviewed, setWordsReviewed] = useState(0);
   const [deckList, setDeckList] = useState([
     { deckName: "deck1", deck: deck1 }
   ]);
@@ -43,16 +43,18 @@ const App = () => {
       verso: verso, 
       fibonacci_level: nextFibonacciLevel
     };
-    setWordsReviewed(prev => prev.set(idx, updatedItem));
+    setWordsToReview(prev => {
+      prev[idx] = updatedItem;
+      setWordsReviewed(prev => prev + 1);
+      return prev;
+    });
   }
 
-
   return (<div className='App'>
-
     <NavigationBar deckName={currentDeck}/>
     <div style={{display: "flex", flexFlow: "row wrap", justifyContent: "flex-start", alignItems: "flex-start"}}>
       <DeckSelector deckList={deckList} setCurrentDeck={setCurrentDeck} />
-      <TodaysProgression wordsToReview={wordsToReview} reviewed={wordsReviewed} />
+      <TodaysProgression toReview={wordsToReview.length} reviewed={wordsReviewed} />
     </div>
     <Statistics words_json={currentJson} />
     <hr />
@@ -60,13 +62,12 @@ const App = () => {
     <div className='container-fluid'>
     <div className="row">
       {wordsToReview.map((item, idx) => {
-        const style = wordsReviewed.has(idx) ? {display: "none"} : {};
-        console.log(style);
         return (
-        <div className='col-sm-4' key={idx} style={style}>
+        <div className='col-sm-4' key={idx}>
           <Fiche 
             className="App-Fiche"
             item={item}
+            idx={idx}
             handleAnswer={handleAnswer}
           />
         </div>)

@@ -6,10 +6,12 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import "./Fiche.css";
 
+const colors = {default: "white", passed: "lightgrey", failed: "lightpink", succeed: "lightgreen"};
 
 export default function Fiche({item, handleAnswer, idx}) {
   const [showCheckAction, setShowCheckAction] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [backgroundCard, setBackgroundCard] = useState(colors.default);
   const {recto, verso} = item;
 
   const handleAnswerClick = () => {
@@ -19,11 +21,18 @@ export default function Fiche({item, handleAnswer, idx}) {
 
   const handlePassClick = () => {
     setShowAnswer(() => true);
+    setBackgroundCard(colors.passed);
     returnResult(false);
   };
 
-  const handleSuccessClick = () => returnResult(true);
-  const handleFailClick = () => returnResult(false);
+  const handleSuccessClick = () => {
+    setBackgroundCard(colors.succeed);
+    return returnResult(true);
+  };
+  const handleFailClick = () => {
+    setBackgroundCard(colors.failed);
+    return returnResult(false);
+  };
     
   function returnResult(result) {
     handleAnswer(result, item, idx);
@@ -42,7 +51,7 @@ export default function Fiche({item, handleAnswer, idx}) {
   </Stack>;
 
   return (
-    <Card className="Fiche">
+    <Card className="Fiche" style={{backgroundColor: backgroundCard}}>
       <CardContent>
         <h5>{recto}</h5>
         <blockquote>
@@ -50,7 +59,7 @@ export default function Fiche({item, handleAnswer, idx}) {
         </blockquote>
       </CardContent>
       <CardActions>
-        {showCheckAction ? showSuccessErrorButtons() : showAnswerPassButton()}
+        {backgroundCard === colors.default && (showCheckAction ? showSuccessErrorButtons() : showAnswerPassButton())}
       </CardActions>
     </Card>
   );

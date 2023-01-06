@@ -2,9 +2,9 @@ import React from 'react';
 import LinearWithValueLabel from './ProgressBar';
 import Paper from '@mui/material/Paper';
 
-const TodaysProgression = ({wordsToReview, reviewed }) => {
+const TodaysProgression = ({toReview, reviewed}) => {
     return <Paper elevation={3} style={{padding: "8px", margin: "8px", flex: "auto"}}>
-        <LinearWithValueLabel total={wordsToReview.length} current={reviewed.length} />
+        <LinearWithValueLabel total={toReview} current={reviewed} />
     </Paper>
 }
 
